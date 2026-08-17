@@ -1,26 +1,148 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+body {
+  font-family: "Tomorrow", sans-serif;
+  color: #323a2d;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-lightGreen: #e4e8cc;
+  --color-olive: #454a24;
+  --color-darkOlive: #323a2d;
+  --color-avocado: #a3b055;
+  --color-mandalay: #999d96;
+  --color-borderLine: #d9d9d7;
+  --color-red: #fb2c36;
+  --color-grayishYellow: #f6f7ed;
+  --color-darkred: #cf1000;
+  --color-green: #34c759;
+
+  --text-font7: 7px;
+  --text-font8: 8px;
+  --text-font9: 9px;
+  --text-font10: 10px;
+  --text-font11: 11px;
+  --text-font12: 12px;
+  --text-font13: 13px;
+  --text-font14: 14px;
+  --text-font15: 15px;
+  --text-font16: 16px;
+  --text-font17: 17px;
+  --text-font18: 18px;
+  --text-font19: 19px;
+  --text-font20: 20px;
+  --text-font22: 22px;
+  --text-font24: 24px;
+  --text-font26: 26px;
+  --text-font28: 28px;
+  --text-font30: 30px;
+  --text-font32: 32px;
+  --text-font34: 34px;
+  --text-font36: 36px;
+  --text-font38: 38px;
+  --text-font40: 40px;
+  --text-font42: 42px;
+  --text-font44: 44px;
+  --text-font46: 46px;
+  --text-font48: 48px;
+  --text-font50: 50px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Width and height of the scrollbar */
+.scrollbarRemove::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.horizontalScroll::-webkit-scrollbar {
+  @apply h-0.75 w-0.75 bg-borderLine;
 }
+
+.horizontalScroll::-webkit-scrollbar-thumb {
+  @apply rounded-xs bg-darkOlive;
+}
+
+.linearBackGround {
+  @apply bg-linear-to-t from-olive to-avocado;
+}
+
+.button {
+  @apply px-5 py-3 text-white text-font16 font-bold rounded-xl cursor-pointer bg-linear-to-t from-olive to-avocado uppercase w-fit;
+}
+
+.formInputClass {
+  @apply text-font14 leading-6 text-darkOlive font-normal bg-white border border-borderLine px-3 py-1.75 w-full rounded-lg focus:ring-0 focus:outline-none focus:bg-avocado/5! focus:border-avocado! focus:border! placeholder:text-mandalay relative disabled:bg-lightGreen disabled:cursor-not-allowed;
+}
+
+/* Date picker classes */
+.rmdp-input {
+  width: 100% !important;
+  padding: 6px 12px !important;
+  background-color: transparent;
+  border-radius: 2px !important;
+  position: relative !important;
+  color: var(--color-darkOlive) !important;
+  font-size: 14px !important;
+  font-weight: normal;
+  outline: none !important;
+  border: 1px solid var(--color-avocado) !important;
+  height: 40px !important;
+}
+
+.rmdp-input:focus {
+  outline: none !important;
+  border: 1px solid var(--color-avocado) !important;
+  box-shadow: none !important;
+}
+.rmdp-container {
+  width: 100% !important;
+}
+
+.rmdp-day.rmdp-today span {
+  background-color: var(--color-avocado) !important;
+  color: var(--color-white) !important;
+  opacity: 50% !important;
+}
+.rmdp-day.rmdp-selected span:not(.highlight) {
+  background-color: var(--color-avocado) !important;
+  color: var(--color-white) !important;
+}
+.rmdp-week-day {
+  color: var(--color-avocado) !important;
+}
+.rmdp-day span:hover {
+  background-color: var(--color-avocado) !important;
+  color: var(--color-white) !important;
+}
+
+/* Make arrow containers circular + centered */
+.rmdp-arrow-container {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+/* Center the arrow shape itself */
+.rmdp-arrow {
+  margin: 0 !important;
+  transform: translateY(1px); /* adjust up/down if needed */
+  border-color: var(--color-white) !important; /* make visible */
+}
+
+.rmdp-arrow {
+  border-color: var(--color-avocado) !important;
+}
+
+.rmdp-arrow-container:hover {
+  background-color: var(--color-avocado) !important;
+  color: var(--color-white) !important;
+}
+
+.rmdp-arrow-container:hover .rmdp-arrow {
+  border-color: var(--color-white) !important;
+}
+

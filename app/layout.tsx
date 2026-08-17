@@ -1,16 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,11 +9,50 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en">
+      <body className="">
+        {" "}
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            className: "",
+            duration: 3000,
+            // style: {
+            //   background: "#c4edd7",
+            //   color: "#000",
+            //   borderRadius: "0px",
+            // },
+
+            success: {
+              style: {
+                background: "#e0f5e9",
+                color: "#1a3e2a",
+                border: "1px solid #1a3e2a",
+                borderRadius: "0px",
+              },
+              className: "capitalize",
+              iconTheme: {
+                primary: "#1a3e2a",
+                secondary: "#ffffff",
+              },
+            },
+            error: {
+              style: {
+                background: "#f8e5e5",
+                color: "#991b1b",
+                border: "1px solid #e55642",
+                borderRadius: "0px",
+              },
+              className: "capitalize",
+              iconTheme: {
+                primary: "#e55642",
+                secondary: "#ffffff",
+              },
+            },
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
