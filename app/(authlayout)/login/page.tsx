@@ -20,7 +20,7 @@ import { LoginButton } from "@/components/Buttons/LoginButton";
 import TransparentScreen from "@/components/loaders/TransparentScreen";
 
 const loginSchema = yup.object().shape({
-  email: yup.string().required("please enter username or email"),
+  login: yup.string().required("please enter username or email"),
   password: yup.string().required("please enter password"),
 });
 
@@ -40,37 +40,38 @@ const LoginPage = () => {
     mode: "all",
     resolver: yupResolver(loginSchema),
     defaultValues: {
-      email: "",
+      login: "",
       password: "",
     },
   });
 
-  const [email, password] = useWatch({
+  const [login, password] = useWatch({
     control,
-    name: ["email", "password"],
+    name: ["login", "password"],
   });
 
   const handleLogin: SubmitHandler<Inputs> = async (data) => {
     const res = await loginApi(data);
+    console.log("res::: ", res);
 
-    if (res?.st) {
+    if (res?.success) {
       Object.keys(cookies.get()).forEach((cookieName) => {
         cookies.remove(cookieName);
       });
       reset();
       dispatch(setLoginData(res?.data));
-      dispatch(setEmail(data?.email));
+      dispatch(setEmail(data?.login));
       dispatch(setToken(res?.data?.accessToken));
       // cookies.set("token", res?.data?.accessToken);
       // cookies.set("isOtp", "true");
       // router.push("/otpPage");
       dispatch(setBaseImageUrl(res?.meta?.imageBaseUrl));
-      if (res?.data?.isDefaultChange) {
-        cookies.set("token", res?.data?.accessToken);
+      if (res?.data?.otp_required) {
+        // cookies.set("token", res?.data?.accessToken);
         cookies.set("isOtp", "true");
         router.push("/otpPage");
       } else {
-        cookies.set("userName", data?.email);
+        cookies.set("userName", data?.login);
         cookies.set("isChangePassword", "true");
         router.push("/changePassword");
       }
@@ -91,11 +92,11 @@ const LoginPage = () => {
         <form onSubmit={handleSubmit(handleLogin)} className="max-w-125 w-full">
           <FormInputText
             inputLabel="Email or Phone Number"
-            inputName="email"
+            inputName="login"
             register={register}
             errors={errors}
             mandatory={true}
-            value={email}
+            value={login}
           />
 
           <FormPasswordInput

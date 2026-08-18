@@ -9,7 +9,11 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useAppSelector } from "@/store/hook";
-import { resendOtpApi, verifyForgetPasswordOtpApi } from "@/apis/loginApis";
+import {
+  forgetPasswordApi,
+  resendOtpApi,
+  verifyForgetPasswordOtpApi,
+} from "@/apis/loginApis";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import cookies from "js-cookie";
@@ -53,31 +57,21 @@ const ForgetPasswordOtpPage = () => {
       reference_id: forgetPassData?.referenceId || "",
       journey_id: forgetPassData?.journeyId || "",
     };
-    // try {
     const res = await verifyForgetPasswordOtpApi(payload);
-    if (res?.st) {
+    console.log("res:handleForgetPasswordOtp  :: ", res);
+    if (res?.success) {
       toast.success(res?.data?.message ?? "Otp verified successfully!");
       reset();
       cookies.remove("isForgotPasswordOtp");
       cookies.set("isForgotChangePassword", "true");
-      cookies.set("token", res?.data?.accessToken);
+      // cookies.set("token", res?.data?.accessToken);
       router.push("/forgotChangePassword");
     }
-    //  else {
-    //   toast.error(res?.msg ?? "Something went wrong!");
-    // }
-    // } catch (error: unknown) {
-    //   const err = error as AxiosError<{ message?: string; detail?: string }>;
-    //   toast.error(err?.response?.data?.message ?? "Something went wrong!");
-    // }
   };
 
   const handleResendOtp = async () => {
-    const res = await resendOtpApi({
-      referenceId: forgetPassData?.referenceId || "",
-      journeyId: forgetPassData?.journeyId || "",
-    });
-    if (res?.st) {
+    const res = await forgetPasswordApi({ email: email || "" });
+    if (res?.success) {
       setCountdown(60);
       setResendDisabled(true);
       toast.success(res?.data?.message ?? "Resend otp successfully!");

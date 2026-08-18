@@ -39,7 +39,7 @@ export const withReferenceKey = <
   };
 };
 // ================== LOGIN API ==================
-export const loginApi = async (data: { email: string; password: string }) => {
+export const loginApi = async (data: { login: string; password: string }) => {
   try {
     const res = await axios.post(
       ApiBaseUrl + "api/v1/auth/login/",
@@ -92,7 +92,7 @@ export const verifyOtpApi = async (data: {
 }) => {
   try {
     const res = await apiInstance.post(
-      "admin/auth/login/verify/",
+      "api/v1/auth/login/verify-otp/",
       withReferenceKey(data),
     );
     return res.data;
@@ -112,7 +112,7 @@ export const verifyOtpApi = async (data: {
 export const forgetPasswordApi = async (data: { email: string }) => {
   try {
     const res = await axios.post(
-      ApiBaseUrl + "admin/auth/forgot-password/",
+      ApiBaseUrl + "api/v1/auth/forgot-password/",
       withReferenceKey(data),
     );
     return res.data;
@@ -138,7 +138,7 @@ export const verifyForgetPasswordOtpApi = async (data: {
 }) => {
   try {
     const res = await apiInstance.post(
-      "admin/auth/forgot-password/verify/",
+      "api/v1/auth/forgot-password/verify-otp/",
       withReferenceKey(data),
     );
     return res.data;
@@ -156,14 +156,13 @@ export const verifyForgetPasswordOtpApi = async (data: {
 
 // ================== FORGET CHANGE PASSWORD API ==================
 export const forgotChangePasswordApi = async (data: {
-  newPassword: string;
-  confirmPassword: string;
-  referenceId: string;
-  journeyId: string;
+  new_password: string;
+  confirm_password: string;
+  email: string;
 }) => {
   try {
     const res = await apiInstance.post(
-      ApiBaseUrl + "admin/auth/forgot-password/reset/",
+      ApiBaseUrl + "api/v1/auth/reset-password/",
       withReferenceKey(data),
     );
     return res.data;

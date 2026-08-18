@@ -30,7 +30,7 @@ const OtpPage = () => {
   const [resendDisabled, setResendDisabled] = useState<boolean>(true);
   const [countdown, setCountdown] = useState<number>(60);
 
-  const { loginData } = useAppSelector((state) => state.auth);
+  const { loginData, email } = useAppSelector((state) => state.auth);
 
   const {
     setValue,
@@ -51,28 +51,22 @@ const OtpPage = () => {
 
   const handleOtpPage: SubmitHandler<Inputs> = async (data) => {
     const payload = {
+      login: email,
       otp: data?.otp,
       reference_id: loginData?.referenceId || "",
       journey_id: loginData?.journeyId || "",
       deviceId,
     };
-    // try {
+
     const res = await verifyOtpApi(payload);
-    if (res?.st) {
+    if (res?.success) {
       toast.success(res?.data?.message ?? "Otp verified successfully!");
       reset();
       cookies.set("deviceId", deviceId);
       cookies.remove("isOtp");
-      cookies.set("token", res?.data?.accessToken);
+      cookies.set("token", res?.data?.access);
       router.push("/");
     }
-    // else {
-    //   toast.error(res?.msg ?? "Something went wrong!");
-    // }
-    // } catch (error: unknown) {
-    //   const err = error as AxiosError<{ message?: string; detail?: string }>;
-    //   toast.error(err?.response?.data?.message ?? "Something went wrong!");
-    // }
   };
 
   const handleResendOtp = async () => {

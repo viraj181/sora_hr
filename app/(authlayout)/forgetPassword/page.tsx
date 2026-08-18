@@ -44,14 +44,14 @@ const ForgetPasswordPage = () => {
 
   const handleForgetPassword: SubmitHandler<Inputs> = async (data) => {
     const res = await forgetPasswordApi(data);
-    if (res?.st) {
+    if (res?.success) {
       reset();
       dispatch(setForgetPassData(res?.data));
       dispatch(setEmail(data?.email));
 
       cookies.remove("isForgotPassword");
       cookies.set("isForgotPasswordOtp", "true");
-      cookies.set("token", res?.data?.accessToken);
+      // cookies.set("token", res?.data?.accessToken);
       router.push("/forgetPasswordOtp");
     }
   };

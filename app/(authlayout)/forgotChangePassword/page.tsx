@@ -55,14 +55,13 @@ const ChangePasswordPage = () => {
 
   const handleForgotChangePassword: SubmitHandler<Inputs> = async (data) => {
     const payload = {
-      newPassword: data?.newPassword,
-      confirmPassword: data?.confirmPassword,
-      referenceId: forgetPassData?.referenceId || "",
-      journeyId: forgetPassData?.journeyId || "",
+      new_password: data?.newPassword,
+      confirm_password: data?.confirmPassword,
+      email: email || "",
     };
     const res = await forgotChangePasswordApi(payload);
 
-    if (res?.st) {
+    if (res?.success) {
       reset();
       toast.success(res.msg || res.message || "Password changed successfully!");
       Object.keys(cookies.get()).forEach((cookieName) => {
