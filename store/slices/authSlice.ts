@@ -20,9 +20,7 @@ interface AuthState {
   email: string | null;
   baseImageUrl: string;
   userData: {
-    userInfo: {
-      name: string;
-    };
+    first_name: string;
     personalInfo: {
       isTotpEnabled: boolean;
     };
@@ -45,9 +43,7 @@ const initialState: AuthState = {
   email: null,
   baseImageUrl: "",
   userData: {
-    userInfo: {
-      name: "",
-    },
+    first_name: "",
     personalInfo: {
       isTotpEnabled: false,
     },
@@ -58,7 +54,7 @@ const initialState: AuthState = {
 export const adminDetailsAPI = async () => {
   try {
     const response = await apiInstance.get(
-      `admin/users/profile/`,
+      `api/v1/auth/me/`,
       // withReferenceKey(),
     );
     return response.data;
@@ -83,7 +79,8 @@ export const adminDetail = createAsyncThunk(
   "admin/adminDetail",
   async (_, { rejectWithValue }) => {
     const response = await adminDetailsAPI();
-    if (response?.st) {
+    console.log("response::: ", response);
+    if (response?.success) {
       return {
         userData: response?.data,
       };

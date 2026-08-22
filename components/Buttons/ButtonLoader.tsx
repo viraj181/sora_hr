@@ -10,7 +10,7 @@ const ButtonLoader = ({ className }: { className?: string }) => {
         alt="btnLoader"
         width={0}
         height={0}
-        className={twMerge("h-10 object-contain object-center", className)}
+        className={twMerge("h-5 object-contain object-center max-w-15", className)}
       />
     </div>
   );

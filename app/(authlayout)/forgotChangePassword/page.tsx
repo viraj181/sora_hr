@@ -80,7 +80,7 @@ const ChangePasswordPage = () => {
       >
         <form
           onSubmit={handleSubmit(handleForgotChangePassword)}
-          className="max-w-125 w-full"
+          className="max-w-150 w-full"
         >
           <FormPasswordInput
             inputLabel="New Password"

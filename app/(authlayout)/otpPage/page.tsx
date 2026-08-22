@@ -126,7 +126,7 @@ const OtpPage = () => {
       >
         <form
           onSubmit={handleSubmit(handleOtpPage)}
-          className="mb-5 max-w-100 w-full  gap-2 flex flex-col items-center"
+          className="mb-5 max-w-150 w-full  gap-2 flex flex-col items-center"
         >
           <div className="max-w-full  mb-2 px-0.5">
             <ReactJsOtpInputModal

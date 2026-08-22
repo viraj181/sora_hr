@@ -13,7 +13,7 @@ const RightSideAuth = ({
 }) => {
   return (
     <>
-      <div className="h-full flex flex-col max-w-150 w-full p-5 xl:p-10 pb-0!">
+      <div className="h-full flex flex-col max-w-200 w-full p-5 xl:p-10 pb-0!">
         {/* <div className="text-right flex gap-2 items-center justify-end ">
           <div className="border p-2 flex items-center gap-2 rounded-md text-avocado">
             <BiSolidInfoSquare className="text-xl" />
