@@ -2,11 +2,15 @@
 import { ModalButton } from "@/components/Buttons/ModalButton";
 import { adminValidationSchema } from "@/validation/adminSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
-import { useForm, useWatch } from "react-hook-form";
+import React, { useState } from "react";
+import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import FormSAInputText from "../../_SAComponents/InputFields/FormSAInputText";
 import FormSAInputNumber from "../../_SAComponents/InputFields/FormSAInputNumber";
 import FormSASelectStateValue from "../../_SAComponents/InputFields/FormSASelectStateValue";
+import UploadImageArray, { ImageUrlDataType } from "@/components/imageComponents/UploadImageArray";
+import ImageUpload from "../../_SAComponents/InputFields/ImageUpload";
+import { AdminFormValues } from "@/types/admintypes";
+import { UploadImageApi } from "@/apis/ExtraAips";
 
 const gstTypeOption = [
   // { label: "Composition", value: "COMPOSITION" },
@@ -18,6 +22,11 @@ const gstTypeOption = [
 ];
 
 const AdminFormPage = () => {
+
+  const [image, setImage] = useState<string | File | null>(null);
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [imageUrlData, setImageUrlData] = useState<ImageUrlDataType[]>([]);
+
   const {
     control,
     setValue,
@@ -32,12 +41,25 @@ const AdminFormPage = () => {
   const formValues = useWatch({
     control,
   });
+
+  const handelDeleteUrlData = (id: number | string) => {
+    setImageUrlData((prev) => prev.filter((item) => item.id !== id));
+  };
+  const onSubmit: SubmitHandler<AdminFormValues> = async (data) => {
+
+    const profileRes = await UploadImageApi({
+      uploadedFiles: image ? [image as File] : [],
+      fileType: "file",
+    });
+    console.log(profileRes);
+  }
+
   return (
     <>
-      <form className="bg-white rounded-lg flex-1 shadow-olive border border-borderLine">
+      <form className="bg-white rounded-lg flex-1 shadow-olive border border-borderLine" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex items-center gap-2 justify-between p-4 border-b border-borderLine">
-          <p>create Admin</p>
-          <ModalButton isSubmitting handleClose={() => {}} />
+          <p className=" font-bold uppercase">create Admin</p>
+          <ModalButton isSubmitting={isSubmitting} handleClose={() => { }} />
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 p-4">
           <FormSAInputText
@@ -104,6 +126,22 @@ const AdminFormPage = () => {
             errors={errors}
             mandatory
           />
+        </div>
+        <div className="p-4 pt-0">
+
+          <p>profile picture</p>
+          <div className="flex items-start w-40  mb-2 ">
+            <ImageUpload image={image} setImage={setImage} />
+          </div>
+          <p className="mb-2 font-bold uppercase">upload admin related documents</p>
+          <UploadImageArray
+            uploadedFiles={uploadedFiles}
+            setUploadedFiles={setUploadedFiles}
+            imageUrlData={imageUrlData}
+            handelDeleteUrlData={handelDeleteUrlData}
+          />
+
+
         </div>
       </form>
     </>

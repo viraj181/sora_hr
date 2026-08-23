@@ -47,7 +47,7 @@ export const UploadImageApi = async ({
     const formData = new FormData();
 
     uploadedFiles.forEach((file: File) => {
-      formData.append("files", file);
+      formData.append("image", file);
     });
     formData.append("types", fileType);
     formData.append("referenceKey", generateReferenceKey());

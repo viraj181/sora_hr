@@ -29,10 +29,4 @@ export const adminValidationSchema = Yup.object({
     )
     .optional(),
 
-  profile_photo_id: Yup.number()
-    .integer("Profile photo ID must be an integer")
-    .positive("Profile photo ID must be positive")
-    .optional(),
-
-  documents: Yup.mixed<Record<string, unknown> | unknown[]>().optional(),
 });

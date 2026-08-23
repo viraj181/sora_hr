@@ -1,0 +1,104 @@
+import apiInstance from "@/apis/apiConfig";
+import { apiEndPoints } from "@/apis/apiConstant";
+import { extractError, withReferenceKey } from "@/apis/loginApis";
+import { AdminFormValues, FetchAdminPayload } from "@/types/admintypes";
+import { AxiosError } from "axios";
+import toast from "react-hot-toast";
+
+export const fetchAdminAPI = async (data: FetchAdminPayload) => {
+  try {
+    const response = await apiInstance.get(
+      apiEndPoints.userApi,
+      { params: withReferenceKey(data) },
+    );
+    return response.data;
+  } catch (error) {
+    toast.error(
+      extractError(
+        error as AxiosError<{
+          message?: string;
+          detail?: string;
+          msg?: string;
+        }>,
+      ),
+    );
+
+    return extractError(
+      error as AxiosError<{ message?: string; detail?: string; msg?: string }>,
+    );
+  }
+};
+
+export const fetchAdminAPIById = async (data: { adminId: number }) => {
+  try {
+    const response = await apiInstance.post(
+      apiEndPoints.userApi,
+      withReferenceKey(data),
+    );
+    return response.data;
+  } catch (error) {
+    toast.error(
+      extractError(
+        error as AxiosError<{
+          message?: string;
+          detail?: string;
+          msg?: string;
+        }>,
+      ),
+    );
+
+    return extractError(
+      error as AxiosError<{ message?: string; detail?: string; msg?: string }>,
+    );
+  }
+};
+
+export const createAdminAPI = async (data: AdminFormValues) => {
+  try {
+    const response = await apiInstance.post(
+      apiEndPoints.userApi,
+      withReferenceKey(data),
+    );
+    return response.data;
+  } catch (error) {
+    toast.error(
+      extractError(
+        error as AxiosError<{
+          message?: string;
+          detail?: string;
+          msg?: string;
+        }>,
+      ),
+    );
+
+    return extractError(
+      error as AxiosError<{ message?: string; detail?: string; msg?: string }>,
+    );
+  }
+};
+
+export const updateAdminAPIById = async (
+  data: AdminFormValues & { adminId: number },
+) => {
+  try {
+    const response = await apiInstance.put(
+      apiEndPoints.userApi,
+      withReferenceKey(data),
+    );
+    return response.data;
+  } catch (error) {
+    toast.error(
+      extractError(
+        error as AxiosError<{
+          message?: string;
+          detail?: string;
+          msg?: string;
+        }>,
+      ),
+    );
+
+    return extractError(
+      error as AxiosError<{ message?: string; detail?: string; msg?: string }>,
+    );
+  }
+};

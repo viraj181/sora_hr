@@ -1,4 +1,4 @@
-import { Header } from "@/Types/tableLayoutTypes";
+import { Header } from "@/types/tableLayoutTypes";
 import PageSize from "../shorting/PageSize";
 import Pagination from "../shorting/Pagination";
 import TableWrapper from "./TableWrapper";
@@ -32,7 +32,7 @@ const FullTableLayout = ({
 }) => {
   return (
     <>
-      <div className="p-4 pt-0 flex flex-col flex-1 overflow-hidden rounded-lg">
+      <div className="flex flex-col flex-1 overflow-hidden rounded-lg">
         {(headerTitle || headerChildren) && (
           <div className="bg-white  rounded-t-lg flex items-center justify-between px-4 py-2 border  border-borderLine ">
             {headerTitle && (

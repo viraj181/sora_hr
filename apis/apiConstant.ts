@@ -22,7 +22,7 @@ export const apiEndPoints = {
   capitalApi: "sa/fund-request/",
 
   // user apis
-  userApi: "admin/users/",
+  userApi: "api/v1/admins/",
   panVerifyApi: "admin/v2/verify_pan/",
   userKycInfoApi: "admin/users/kyc/",
   userService: "admin/retailer-service-assignment/",
@@ -38,7 +38,7 @@ export const apiEndPoints = {
   depositsApi: "admin/partner/fund-request/",
 
   //   image upload apis
-  imageUploadApi: "admin/image-upload/",
+  imageUploadApi: "api/v1/admins/uploads/images/",
 
   // setting (email config) apis
   settingEmailConfigApi: "admin/email-credentials/",
