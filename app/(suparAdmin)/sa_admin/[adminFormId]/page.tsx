@@ -11,6 +11,7 @@ import UploadImageArray, { ImageUrlDataType } from "@/components/imageComponents
 import ImageUpload from "../../_SAComponents/InputFields/ImageUpload";
 import { AdminFormValues } from "@/types/admintypes";
 import { UploadImageApi } from "@/apis/ExtraAips";
+import { useRouter } from "next/navigation";
 
 const gstTypeOption = [
   // { label: "Composition", value: "COMPOSITION" },
@@ -22,6 +23,8 @@ const gstTypeOption = [
 ];
 
 const AdminFormPage = () => {
+
+  const router = useRouter();
 
   const [image, setImage] = useState<string | File | null>(null);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
@@ -56,92 +59,94 @@ const AdminFormPage = () => {
 
   return (
     <>
-      <form className="bg-white rounded-lg flex-1 shadow-olive border border-borderLine" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex flex-col overflow-y-hidden bg-white rounded-lg flex-1 shadow-olive border border-borderLine" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex items-center gap-2 justify-between p-4 border-b border-borderLine">
-          <p className=" font-bold uppercase">create Admin</p>
-          <ModalButton isSubmitting={isSubmitting} handleClose={() => { }} />
+          <p className="font-bold uppercase">create Admin</p>
+          <ModalButton isSubmitting={isSubmitting} handleClose={() => {
+            router.back();
+          }} />
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 p-4">
-          <FormSAInputText
-            inputLabel="first name"
-            inputName="first_name"
-            register={register}
-            errors={errors}
-            mandatory={true}
-            value={formValues.email || ""}
-          />
-          <FormSAInputText
-            inputLabel="last name"
-            inputName="last_name"
-            register={register}
-            errors={errors}
-            mandatory={true}
-            value={formValues.email || ""}
-          />
-          <FormSAInputText
-            inputLabel="email"
-            inputName="email"
-            register={register}
-            errors={errors}
-            mandatory={true}
-            value={formValues.email || ""}
-          />
-          <FormSAInputNumber
-            inputLabel="contact name"
-            inputName="contact_number"
-            control={control}
-            errors={errors}
-            mandatory={true}
-            maxLength={10}
-          />
-          <FormSAInputText
-            inputLabel="company name"
-            inputName="company_name"
-            register={register}
-            errors={errors}
-            mandatory={true}
-            value={formValues.email || ""}
-          />
-          <FormSAInputText
-            inputLabel="address"
-            inputName="address"
-            register={register}
-            errors={errors}
-            mandatory={true}
-            value={formValues.email || ""}
-          />{" "}
-          <FormSAInputText
-            inputLabel="gst number"
-            inputName="gst_number"
-            register={register}
-            errors={errors}
-            mandatory={true}
-            value={formValues.email || ""}
-          />
-          <FormSASelectStateValue
-            options={gstTypeOption}
-            name="gst_type"
-            selectLabel="gst type"
-            control={control}
-            errors={errors}
-            mandatory
-          />
-        </div>
-        <div className="p-4 pt-0">
+        <div className="flex-1 overflow-auto">
 
-          <p>profile picture</p>
-          <div className="flex items-start w-40  mb-2 ">
-            <ImageUpload image={image} setImage={setImage} />
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 p-4">
+            <FormSAInputText
+              inputLabel="first name"
+              inputName="first_name"
+              register={register}
+              errors={errors}
+              mandatory={true}
+              value={formValues.first_name || ""}
+            />
+            <FormSAInputText
+              inputLabel="last name"
+              inputName="last_name"
+              register={register}
+              errors={errors}
+              mandatory={true}
+              value={formValues.last_name || ""}
+            />
+            <FormSAInputText
+              inputLabel="email"
+              inputName="email"
+              register={register}
+              errors={errors}
+              mandatory={true}
+              value={formValues.email || ""}
+            />
+            <FormSAInputNumber
+              inputLabel="contact name"
+              inputName="contact_number"
+              control={control}
+              errors={errors}
+              mandatory={true}
+              maxLength={10}
+            />
+            <FormSAInputText
+              inputLabel="company name"
+              inputName="company_name"
+              register={register}
+              errors={errors}
+              mandatory={true}
+              value={formValues.company_name || ""}
+            />
+            <FormSAInputText
+              inputLabel="address"
+              inputName="address"
+              register={register}
+              errors={errors}
+              value={formValues.address || ""}
+            />{" "}
+            <FormSAInputText
+              inputLabel="gst number"
+              inputName="gst_number"
+              register={register}
+              errors={errors}
+              value={formValues.gst_number || ""}
+            />
+            <FormSASelectStateValue
+              options={gstTypeOption}
+              name="gst_type"
+              selectLabel="gst type"
+              control={control}
+              errors={errors}
+            />
           </div>
-          <p className="mb-2 font-bold uppercase">upload admin related documents</p>
-          <UploadImageArray
-            uploadedFiles={uploadedFiles}
-            setUploadedFiles={setUploadedFiles}
-            imageUrlData={imageUrlData}
-            handelDeleteUrlData={handelDeleteUrlData}
-          />
+          <div className="p-4 pt-0">
+
+            <p className="mb-2 font-bold uppercase">profile picture</p>
+            <div className="flex items-start w-40  mb-2 ">
+              <ImageUpload image={image} setImage={setImage} />
+            </div>
+            <p className="mb-2 font-bold uppercase">upload admin related documents</p>
+            <UploadImageArray
+              uploadedFiles={uploadedFiles}
+              setUploadedFiles={setUploadedFiles}
+              imageUrlData={imageUrlData}
+              handelDeleteUrlData={handelDeleteUrlData}
+            />
 
 
+          </div>
         </div>
       </form>
     </>

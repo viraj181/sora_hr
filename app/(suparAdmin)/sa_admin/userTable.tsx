@@ -12,18 +12,14 @@ import TableRows from "../_SAComponents/layout/table/TableRows";
 
 const UserHeader = [
   { label: "sr.no", width: "w-[50px]" },
-  { label: "Date" },
-  { label: "user Details" },
-  { label: "parent Details" },
-  { label: "user Category" },
-  { label: "Contact" },
+  { label: "admin name" },
   { label: "Email ID" },
-  { label: "main" },
-  { label: "pg" },
-  { label: "cashin" },
-  { label: "commission" },
-  { label: "total BL" },
-  { label: "Status", width: "w-[130px]" },
+  { label: "Contact" },
+  { label: "company name" },
+  { label: "Address" },
+  { label: "gst number" },
+  { label: "gst type" },
+  { label: "status" },
   { label: "action", width: "w-[50px]" },
 ];
 
@@ -88,28 +84,28 @@ const UserTable = () => {
             className={`${index % 2 === 0 ? "bg-grayishYellow" : "bg-white"} drop-shadow-sm`}
           >
             {[
-              item.customIndex,
-              item.created_at,
+              item.customIndex || item.id,
               <>
                 <p>{item?.first_name} {item?.last_name}</p>
-                <p>{item?.uuid}</p>
               </>,
               <>
-                <p>{item?.company_name}</p>
-                <p>{item?.gst_number}</p>
+                <p>{item?.email}</p>
               </>,
-              item?.gst_type,
               item?.contact_number,
-              item?.email,
+              item?.company_name,
               item?.address,
-              item?.status,
-              item?.db_name,
-              item?.schema_name,
-              <StaticStatus
-                key={item.customIndex}
-                status={item?.status}
-                statusClassName="w-full"
-              />,
+              item?.gst_number,
+              item?.gst_type,
+
+              <>
+
+                <StaticStatus
+                  key={item.customIndex}
+                  status={item?.status}
+                  statusClassName="w-full"
+                />
+              </>
+              ,
               <>
                 <div className="flex items-center justify-center gap-2">
                   <IoEyeSharp

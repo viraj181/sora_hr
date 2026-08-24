@@ -43,24 +43,26 @@ const Sidebar = ({
                   <Link
                     href={item.url ? item.url : ""}
                     key={item.name}
-                    onClick={() => setActiveItem(item.name)}
-                    className={`w-full flex items-center gap-3 p-2.5 text-sm text-darkOlive font-normal rounded-[10px] transition-colors duration-150 capitalize  ${
-                      pathname === item.url ||
+                    onClick={() => {
+                      setActiveItem(item.name); if (item.url) {
+                        setMobileSideBar?.(false);
+                      }
+                    }}
+                    className={`w-full flex items-center gap-3 p-2.5 text-sm text-darkOlive font-normal rounded-[10px] transition-colors duration-150 capitalize  ${pathname === item.url ||
                       pathname.split("/")[1] === item.name
-                        ? "bg-lightGreen font-bold!"
-                        : "hover:bg-lightGreen"
-                    }`}
+                      ? "bg-lightGreen font-bold!"
+                      : "hover:bg-lightGreen"
+                      }`}
                   >
                     {item.icon}
                     <span>{item.label}</span>
                   </Link>
                   <div
-                    className={`${
-                      pathname === item.url ||
+                    className={`${pathname === item.url ||
                       pathname.split("/")[1] === item.name
-                        ? "w-1 h-10 bg-avocado"
-                        : ""
-                    }`}
+                      ? "w-1 h-10 bg-avocado"
+                      : ""
+                      }`}
                   />
                 </div>
 
@@ -77,13 +79,14 @@ const Sidebar = ({
                           <Link
                             href={subItem.url ? subItem.url : ""}
                             key={subItem.name}
-                            // onClick={() => setActiveItem(subItem.name)}
-                            className={`w-full flex items-center gap-3 p-1 px-0!  text-sm text-darkOlive font-normal rounded-[10px] transition-colors duration-150 capitalize ${
-                              pathname === subItem.url ||
+                            onClick={() => {
+                              setMobileSideBar?.(false);
+                            }}
+                            className={`w-full flex items-center gap-3 p-1 px-0!  text-sm text-darkOlive font-normal rounded-[10px] transition-colors duration-150 capitalize ${pathname === subItem.url ||
                               pathname.split("/")[2] === subItem.name
-                                ? "font-bold!"
-                                : "hover:font-bold"
-                            }`}
+                              ? "font-bold!"
+                              : "hover:font-bold"
+                              }`}
                           >
                             {subItem.icon}
                             <span>{subItem.label}</span>

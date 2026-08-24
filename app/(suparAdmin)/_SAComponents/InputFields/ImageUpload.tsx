@@ -79,7 +79,7 @@ const ImageUpload = ({
               htmlFor="fileInput"
               className="w-full p-4 bg-tableHover border border-borderLine cursor-pointer rounded-lg"
             >
-              <div className="flex flex-col w-40 h-37.5 items-center justify-center gap-1">
+              <div className="flex flex-col w-full h-full items-center justify-center gap-1">
                 <FaCloudArrowUp className="text-avocado" size={40} />
                 <p className="text-font14 capitalize font-semibold">
                   Drag and drop a image here or click
