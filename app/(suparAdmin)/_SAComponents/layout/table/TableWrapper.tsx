@@ -2,7 +2,7 @@ import React from "react";
 import NoData from "./NoData";
 import TableLoader from "@/components/loaders/TableLoader";
 import TableHeader from "./TableHeader";
-import { TableWrapperProps } from "@/Types/tableLayoutTypes";
+import { TableWrapperProps } from "@/types/tableLayoutTypes";
 
 const TableWrapper = ({
   dataLength,
@@ -14,9 +14,8 @@ const TableWrapper = ({
   return (
     <div className="relative h-full overflow-auto horizontalScroll whitespace-nowrap bg-white horizontalScroll">
       <table
-        className={`w-full border-separate border-spacing-y-1.5 ${
-          loader || dataLength <= 0 ? "h-full" : ""
-        }`}
+        className={`w-full border-separate border-spacing-y-1.5 ${loader || dataLength <= 0 ? "h-full" : ""
+          }`}
       >
         <thead>
           <tr className="linearBackGround text-white sticky top-0 z-1">
