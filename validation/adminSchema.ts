@@ -23,10 +23,6 @@ export const adminValidationSchema = Yup.object({
     .optional(),
 
   gst_type: Yup.string()
-    .oneOf(
-      ["REGISTERED", "UNREGISTERED"],
-      "GST type must be REGISTERED or UNREGISTERED",
-    )
     .optional(),
 
 });

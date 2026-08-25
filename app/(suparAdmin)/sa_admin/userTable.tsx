@@ -20,7 +20,7 @@ const UserHeader = [
   { label: "gst number" },
   { label: "gst type" },
   { label: "status" },
-  { label: "action", width: "w-[50px]" },
+  // { label: "action", width: "w-[50px]" },
 ];
 
 const UserTable = () => {
@@ -106,22 +106,22 @@ const UserTable = () => {
                 />
               </>
               ,
-              <>
-                <div className="flex items-center justify-center gap-2">
-                  <IoEyeSharp
-                    className="text-font18 cursor-pointer text-avocado"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      // router.push(`/admin/adminOverView/${item.id}`);
-                    }}
-                  />
+              // <>
+              //   <div className="flex items-center justify-center gap-2">
+              //     <IoEyeSharp
+              //       className="text-font18 cursor-pointer text-avocado"
+              //       onClick={(e) => {
+              //         e.stopPropagation();
+              //         // router.push(`/admin/adminOverView/${item.id}`);
+              //       }}
+              //     />
 
-                  <ActionDropDown
-                    dataSize={adminDataLength}
-                    index={index}
-                  />
-                </div>
-              </>,
+              //     <ActionDropDown
+              //       dataSize={adminDataLength}
+              //       index={index}
+              //     />
+              //   </div>
+              // </>,
             ].map((cell, cellIndex) => {
               return (
                 <TableRows

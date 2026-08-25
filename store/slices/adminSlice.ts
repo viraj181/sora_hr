@@ -43,10 +43,10 @@ export const fetchAdmin = createAsyncThunk(
     const response = await fetchAdminAPI(data);
     if (response?.success) {
       return {
-        adminData: response?.data,
-        totalCount: response?.meta?.pagination?.totalItems || 0,
-        totalPages: response?.meta?.pagination?.totalPages || 0,
-        dataLength: response?.data?.length || 0,
+        adminData: response?.data?.results,
+        totalCount: response?.data?.pagination?.count || 0,
+        totalPages: response?.data?.pagination?.total_pages || 0,
+        dataLength: response?.data?.results?.length || 0,
       };
     } else {
       return rejectWithValue(response?.msg || "Failed to fetch Admin!");
@@ -60,7 +60,7 @@ export const createAdmin = createAsyncThunk(
   async (data: AdminFormValues, { rejectWithValue }) => {
     const response = await createAdminAPI(data);
     if (response?.success) {
-      toast.success(response?.msg || "Admin added successfully!");
+      toast.success(response?.message || "Admin added successfully!");
       return response?.data;
     } else {
       return rejectWithValue(response?.msg || "Failed to add Admin!");

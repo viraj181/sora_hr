@@ -7,9 +7,9 @@ import toast from "react-hot-toast";
 
 export const fetchAdminAPI = async (data: FetchAdminPayload) => {
   try {
-    const response = await apiInstance.get(
+    const response = await apiInstance.post(
       apiEndPoints.userApi,
-      { params: withReferenceKey(data) },
+      withReferenceKey(data),
     );
     return response.data;
   } catch (error) {
@@ -56,7 +56,7 @@ export const fetchAdminAPIById = async (data: { adminId: number }) => {
 export const createAdminAPI = async (data: AdminFormValues) => {
   try {
     const response = await apiInstance.post(
-      apiEndPoints.userApi,
+      apiEndPoints.createAdminApi,
       withReferenceKey(data),
     );
     return response.data;

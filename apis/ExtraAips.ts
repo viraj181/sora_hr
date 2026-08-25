@@ -49,11 +49,12 @@ export const UploadImageApi = async ({
     uploadedFiles.forEach((file: File) => {
       formData.append("image", file);
     });
-    formData.append("types", fileType);
+    formData.append("type", fileType);
     formData.append("referenceKey", generateReferenceKey());
     const res = await formDataApiInstance.post(url, formData);
-    if (res?.data?.st) {
-      return { st: true, files: res?.data?.data?.files };
+    console.log("🚀 ~ UploadImageApi ~ res.data::: ", res);
+    if (res?.data?.success) {
+      return { st: true, files: res?.data?.data };
     }
   } catch (err) {
     toast.error(

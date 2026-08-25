@@ -3,7 +3,7 @@ import { ModalButton } from "@/components/Buttons/ModalButton";
 import { adminValidationSchema } from "@/validation/adminSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
-import { SubmitHandler, useForm, useWatch } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import FormSAInputText from "../../_SAComponents/InputFields/FormSAInputText";
 import FormSAInputNumber from "../../_SAComponents/InputFields/FormSAInputNumber";
 import FormSASelectStateValue from "../../_SAComponents/InputFields/FormSASelectStateValue";
@@ -12,6 +12,8 @@ import ImageUpload from "../../_SAComponents/InputFields/ImageUpload";
 import { AdminFormValues } from "@/types/admintypes";
 import { UploadImageApi } from "@/apis/ExtraAips";
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/store/hook";
+import { createAdmin } from "@/store/slices/adminSlice";
 
 const gstTypeOption = [
   // { label: "Composition", value: "COMPOSITION" },
@@ -25,6 +27,8 @@ const gstTypeOption = [
 const AdminFormPage = () => {
 
   const router = useRouter();
+
+  const dispatch = useAppDispatch();
 
   const [image, setImage] = useState<string | File | null>(null);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
@@ -48,13 +52,42 @@ const AdminFormPage = () => {
   const handelDeleteUrlData = (id: number | string) => {
     setImageUrlData((prev) => prev.filter((item) => item.id !== id));
   };
-  const onSubmit: SubmitHandler<AdminFormValues> = async (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
 
     const profileRes = await UploadImageApi({
       uploadedFiles: image ? [image as File] : [],
-      fileType: "file",
+      fileType: "PROFILE_PHOTO",
     });
-    console.log(profileRes);
+
+    console.log("profileRes", profileRes);
+
+    const documentsRes = await UploadImageApi({
+      uploadedFiles: uploadedFiles,
+      fileType: "DOCUMENT",
+    });
+    console.log("documentsRes", documentsRes);
+    if (profileRes?.st && documentsRes?.st) {
+
+      const payload = {
+        first_name: data?.first_name,
+        last_name: data?.last_name,
+        email: data?.email,
+        contact_number: data?.contact_number,
+        company_name: data?.company_name,
+        address: data?.address,
+        gst_number: data?.gst_number,
+        gst_type: data?.gst_type,
+        profile_photo_id: profileRes?.files?.id || 0,
+        documents: documentsRes?.files?.id || 0,
+      };
+      const res = await dispatch(createAdmin(payload)).unwrap();
+      console.log("res", res);
+      if (res) {
+        router.back();
+      }
+    }
+
+
   }
 
   return (

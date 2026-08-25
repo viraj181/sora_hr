@@ -11,8 +11,8 @@ export interface AdminFormValues {
   address?: string;
   gst_number?: string;
   gst_type?: GstType;
-  profile_photo_id?: number;
-  documents?: Record<string, unknown> | unknown[];
+  profile_photo?: number;
+  documents?: number;
 }
 
 
