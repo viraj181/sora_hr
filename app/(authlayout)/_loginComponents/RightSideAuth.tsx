@@ -1,4 +1,4 @@
-import logo from "@/image/projectLogo.jpeg";
+import logo from "@/image/projectLogo.png";
 import Image from "next/image";
 import React from "react";
 
