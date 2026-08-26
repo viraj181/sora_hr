@@ -16,6 +16,7 @@ const FullTableLayout = ({
   children,
   onclickLimit,
   onClickPagination,
+  viewPagination = true
 }: {
   headerTitle?: string;
   headerChildren?: React.ReactNode;
@@ -29,6 +30,7 @@ const FullTableLayout = ({
   children: React.ReactNode;
   onclickLimit: (e: number) => void;
   onClickPagination: (page: number) => void;
+  viewPagination?: boolean
 }) => {
   return (
     <>
@@ -52,7 +54,7 @@ const FullTableLayout = ({
             </TableWrapper>
           </>
         </div>
-        <div className="h-10 bg-white border border-borderLine rounded-b-lg flex items-center">
+        {viewPagination && <div className="h-10 bg-white border border-borderLine rounded-b-lg flex items-center">
           <PageSize
             onclickLimit={(e: number) => {
               onclickLimit(e);
@@ -70,7 +72,7 @@ const FullTableLayout = ({
               onClickPagination(page);
             }}
           />
-        </div>
+        </div>}
       </div>
     </>
   );

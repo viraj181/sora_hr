@@ -2,7 +2,7 @@ import * as Yup from "yup";
 
 export type GstType = "REGISTERED" | "UNREGISTERED";
 
-export interface AdminFormValues {
+export interface RoleFormValues {
   first_name: string;
   last_name: string;
   email: string;
@@ -15,15 +15,13 @@ export interface AdminFormValues {
   documents?: number;
 }
 
-
-
-export interface FetchAdminPayload {
+export interface FetchRolePayload {
   pageNumber: number;
   pageSize: number;
   search: string;
 }
 
-export interface AdminDataTypes {
+export interface RoleDataTypes {
   customIndex: number;
   id: number;
   uuid: string;
@@ -68,44 +66,33 @@ export interface Document {
   created_at: string;
 }
 
-export interface AdminFiltersTypes {
+export interface RoleFiltersTypes {
   page: number;
   limit: number;
   search: string;
   status: string;
-  extraParams?: { [key: string]: string | number };
+  extraParams?: {
+    [key: string]: string | number;
+  };
 }
 
-export interface AdminSliceTypes {
-  // fetch  admin list states
-  adminLoading: boolean;
-  adminError: string;
-  adminData: AdminDataTypes[];
-  adminTotalItems: number;
-  adminTotalPages: number;
-  adminDataLength: number;
-  adminFilters: AdminFiltersTypes;
-  adminTableDataReload: string;
+export interface RoleSliceTypes {
+  // fetch role list states
+  roleLoading: boolean;
+  roleError: string;
+  roleData: RoleDataTypes[];
+  roleTotalItems: number;
+  roleTotalPages: number;
+  roleDataLength: number;
+  roleFilters: RoleFiltersTypes;
+  roleTableDataReload: string;
 
-  adminId: number | null;
-  adminModal: boolean;
-  adminModalData: AdminDataTypes | null;
-  adminModalLoader: boolean;
-
-  // admin permission states
-  adminPermissionModal: boolean;
-  adminPermissionModalData: {
-    module_code: string;
-    module_name: string;
-    can_view: boolean;
-    can_add: boolean;
-    can_change: boolean;
-    can_delete: boolean;
-    updated_at: string | null;
-  }[] | null;
-  adminPermissionModalLoader: boolean;
+  roleId: number | null;
+  roleModal: boolean;
+  roleModalData: RoleDataTypes | null;
+  roleModalLoader: boolean;
 
   // delete modal states
-  adminDeleteModal: boolean;
-  adminDeleteModalId: number | null;
+  roleDeleteModal: boolean;
+  roleDeleteModalId: number | null;
 }

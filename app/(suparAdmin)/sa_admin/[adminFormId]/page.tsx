@@ -17,8 +17,8 @@ import { createAdmin } from "@/store/slices/adminSlice";
 
 const gstTypeOption = [
   // { label: "Composition", value: "COMPOSITION" },
-  { label: "Regular", value: "REGULAR" },
-  { label: "Unregister", value: "UNREGISTER" },
+  { label: "REGISTERED", value: "REGISTERED" },
+  { label: "UNREGISTERED", value: "UNREGISTERED" },
   // { label: "SEZ", value: "SEZ" },
   // { label: "Exports", value: "EXPORTS" },
   // { label: "Ecommerce", value: "ECOMMERCE" },
@@ -77,8 +77,8 @@ const AdminFormPage = () => {
         address: data?.address,
         gst_number: data?.gst_number,
         gst_type: data?.gst_type,
-        profile_photo_id: profileRes?.files?.id || 0,
-        documents: documentsRes?.files?.id || 0,
+        profile_photo_id: profileRes?.files?.[0]?.id || 0,
+        documents: documentsRes?.files && documentsRes?.files.length > 0 ? documentsRes?.files.map((file: { id: number }) => file.id) : [],
       };
       const res = await dispatch(createAdmin(payload)).unwrap();
       console.log("res", res);

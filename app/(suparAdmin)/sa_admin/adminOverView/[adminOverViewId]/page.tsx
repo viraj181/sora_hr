@@ -5,7 +5,10 @@ import FilePreviewBox from "@/components/imageComponents/FilePreview";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { fetchAdminData } from "@/store/slices/adminSlice";
 import { useParams, useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { BsCaretLeftSquare } from "react-icons/bs";
+import { twMerge } from "tailwind-merge";
+import RolePage from "./rolePage";
 
 const AdminOverViewPage = () => {
     const router = useRouter();
@@ -14,7 +17,27 @@ const AdminOverViewPage = () => {
 
     const dispatch = useAppDispatch();
     const { adminModalData } = useAppSelector((state) => state.admin);
-    console.log("adminModalData:: ", adminModalData);
+
+    const [activeMenu, setActiveMenu] = useState("Profile");
+
+    const menuButtons = [
+        {
+            id: 1,
+            name: "Profile",
+        },
+        // {
+        //   id: 2,
+        //   name: "User Mapping",
+        // },
+        {
+            id: 3,
+            name: "Role",
+        },
+        // {
+        //   id: 4,
+        //   name: "Bank",
+        // },
+    ];
 
 
     const userDetails = [
@@ -87,11 +110,19 @@ const AdminOverViewPage = () => {
                     {/* partner overview part */}
                     <div className="p-4 bg-white rounded-lg border border-borderLine flex items-center justify-between">
                         <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-4">
-                            <h1 className="text-font12 md:text-font16 font-bold uppercase text-darkOlive">
-                                {adminModalData?.first_name + " " + adminModalData?.last_name}&apos;s Overview
-                            </h1>
-                            <BaseButton btnName="Back" onBaseButtonClick={() => router.push("/sa_admin")} btnClassName="py-1!" />
-                            {/* <div className="flex flex-wrap gap-2">
+                            <div className="flex items-center gap-2">
+                                <BsCaretLeftSquare
+                                    className="text-avocado cursor-pointer text-font20"
+                                    onClick={() => {
+                                        router.push("/sa_admin")
+                                    }}
+                                />
+                                <h1 className="text-font12 md:text-font16 font-bold uppercase text-darkOlive">
+                                    {adminModalData?.first_name + " " + adminModalData?.last_name}&apos;s Overview
+                                </h1>
+                            </div>
+                            {/* <BaseButton btnName="Back" onBaseButtonClick={() => router.push("/sa_admin")} btnClassName="py-1!" /> */}
+                            <div className="flex flex-wrap gap-2">
                                 {menuButtons.map((menu) => (
                                     <React.Fragment key={menu.id}>
                                         <div
@@ -107,13 +138,13 @@ const AdminOverViewPage = () => {
                                         </div>
                                     </React.Fragment>
                                 ))}
-                            </div> */}
+                            </div>
                         </div>
                     </div>
                 </div>
 
 
-                <div className="flex flex-col gap-2 overflow-y-auto horizontalScroll">
+                {activeMenu === "Profile" && (<div className="flex flex-col gap-2 overflow-y-auto horizontalScroll">
                     {/* user-info part */}
                     <div className=" bg-white border border-borderLine rounded-lg flex flex-col ">
                         <p className="font-bold text-font16 p-2 md:p-3 border-b border-borderLine">
@@ -224,7 +255,13 @@ const AdminOverViewPage = () => {
                                 </div>
                             </div>
                         )}
-                </div>
+                </div>)}
+
+
+                {/* Permission part  */}
+                {activeMenu === "Role" && (
+                    <RolePage />
+                )}
 
 
             </div>

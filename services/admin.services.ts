@@ -131,3 +131,63 @@ export const updateAdminStatusAPI = async (data: { id: number, status: string })
     );
   }
 };
+
+
+// fetch admin role
+export const fetchAdminRolesAPI = async (data: { adminId: number }) => {
+  try {
+    const response = await apiInstance.get(
+      `api/v1/admins/${data.adminId}/permissions/`,
+    );
+    return response.data;
+  } catch (error) {
+    toast.error(
+      extractError(
+        error as AxiosError<{
+          message?: string;
+          detail?: string;
+          msg?: string;
+        }>,
+      ),
+    );
+
+    return extractError(
+      error as AxiosError<{ message?: string; detail?: string; msg?: string }>,
+    );
+  }
+};
+
+// update admin role
+export const updateAdminPermissionsAPI = async (data: {
+  adminId: number,
+  permissions: {
+    module_code: string,
+    can_view: boolean,
+    can_add: boolean,
+    can_change: boolean,
+    can_delete: boolean,
+  }[]
+}) => {
+  try {
+    const response = await apiInstance.put(
+      `api/v1/admins/${data.adminId}/permissions/`,
+      withReferenceKey(data),
+    );
+    return response.data;
+  } catch (error) {
+    toast.error(
+      extractError(
+        error as AxiosError<{
+          message?: string;
+          detail?: string;
+          msg?: string;
+        }>,
+      ),
+    );
+
+    return extractError(
+      error as AxiosError<{ message?: string; detail?: string; msg?: string }>,
+    );
+  }
+};
+

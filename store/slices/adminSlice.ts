@@ -2,7 +2,9 @@ import {
   createAdminAPI,
   fetchAdminAPI,
   fetchAdminAPIById,
+  fetchAdminRolesAPI,
   updateAdminAPIById,
+  updateAdminPermissionsAPI,
   updateAdminStatusAPI
 } from "@/services/admin.services";
 import { AdminFormValues, AdminSliceTypes, FetchAdminPayload } from "@/types/admintypes";
@@ -31,6 +33,11 @@ const initialState: AdminSliceTypes = {
   adminModal: false,
   adminModalData: null,
   adminModalLoader: false,
+
+  // admin permission states
+  adminPermissionModal: false,
+  adminPermissionModalData: null,
+  adminPermissionModalLoader: false,
 
   // delete modal states
   adminDeleteModal: false,
@@ -107,6 +114,47 @@ export const updateAdminStatus = createAsyncThunk(
   },
 );
 
+// fetch admin role
+export const fetchAdminRoles = createAsyncThunk(
+  "admin/fetchAdminRoles",
+  async (data: { adminId: number }, { rejectWithValue }) => {
+    const response = await fetchAdminRolesAPI(data);
+    console.log(response);
+
+    if (response?.success) {
+      return { adminPermissionModalData: response?.data };
+    } else {
+      return rejectWithValue(response?.msg || "Failed to fetch Admin!");
+    }
+  },
+);
+
+// update admin role
+export const updateAdminRoles = createAsyncThunk(
+  "admin/updateAdminRoles",
+  async (data: {
+    adminId: number,
+    permissions: {
+      module_code: string,
+      can_view: boolean,
+      can_add: boolean,
+      can_change: boolean,
+      can_delete: boolean,
+    }[]
+  }, { rejectWithValue }) => {
+    const response = await updateAdminPermissionsAPI(data);
+    console.log(response);
+
+    if (response?.success) {
+      return { adminPermissionModalData: response?.data };
+    } else {
+      return rejectWithValue(response?.msg || "Failed to fetch Admin!");
+    }
+  },
+);
+
+
+
 const adminSlice = createSlice({
   name: "admin",
   initialState,
@@ -155,6 +203,16 @@ const adminSlice = createSlice({
     },
     setAdminDeleteModalId: (state, action) => {
       state.adminDeleteModalId = action.payload.adminDeleteModalId;
+    },
+
+    setAdminPermissionModal: (state, action) => {
+      state.adminPermissionModal = action.payload.adminPermissionModal;
+    },
+    setAdminPermissionModalData: (state, action) => {
+      state.adminPermissionModalData = action.payload.adminPermissionModalData;
+    },
+    setAdminPermissionModalLoader: (state, action) => {
+      state.adminPermissionModalLoader = action.payload.adminPermissionModalLoader;
     },
 
     setAdminInitialValues: () => {
@@ -222,6 +280,23 @@ const adminSlice = createSlice({
       .addCase(updateAdmin.rejected, (state, action) => {
         state.adminError = action.error.message || "";
       });
+
+
+    // fetch admin role
+    builder
+      .addCase(fetchAdminRoles.pending, (state) => {
+        state.adminPermissionModalLoader = true;
+        state.adminError = "";
+      })
+      .addCase(fetchAdminRoles.fulfilled, (state, action) => {
+        state.adminPermissionModalLoader = false;
+        state.adminPermissionModalData = action.payload.adminPermissionModalData;
+      })
+      .addCase(fetchAdminRoles.rejected, (state, action) => {
+        state.adminPermissionModalLoader = false;
+        state.adminError = action.error.message || "";
+        state.adminPermissionModalData = null;
+      });
   },
 });
 
@@ -238,6 +313,10 @@ export const {
   setAdminModal,
   setAdminId,
   setAdminModalData,
+
+  setAdminPermissionModal,
+  setAdminPermissionModalData,
+  setAdminPermissionModalLoader,
 
   setAdminDeleteModal,
   setAdminDeleteModalId,

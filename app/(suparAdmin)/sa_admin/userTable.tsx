@@ -131,7 +131,7 @@ const UserTable = () => {
               <>
                 <div className="flex items-center justify-center">
                   <ToggleButton
-                    isActive={!item?.is_active}
+                    isActive={item?.is_active}
                     toggleClick={() => {
                       handleServiceStatusChange(item);
                     }}
