@@ -46,7 +46,7 @@ const UserTable = () => {
     const response = await dispatch(
       updateAdminStatus({
         id: item?.id,
-        status: item?.status,
+        status: item?.is_active ? "BLOCKED" : "ACTIVE",
       }),
     ).unwrap();
     console.log("response::", response);
