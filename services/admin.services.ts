@@ -31,9 +31,8 @@ export const fetchAdminAPI = async (data: FetchAdminPayload) => {
 
 export const fetchAdminAPIById = async (data: { adminId: number }) => {
   try {
-    const response = await apiInstance.post(
-      apiEndPoints.userApi,
-      withReferenceKey(data),
+    const response = await apiInstance.get(
+      apiEndPoints.userApi + `${data.adminId}/`,
     );
     return response.data;
   } catch (error) {
@@ -86,6 +85,36 @@ export const updateAdminAPIById = async (
       withReferenceKey(data),
     );
     return response.data;
+  } catch (error) {
+    toast.error(
+      extractError(
+        error as AxiosError<{
+          message?: string;
+          detail?: string;
+          msg?: string;
+        }>,
+      ),
+    );
+
+    return extractError(
+      error as AxiosError<{ message?: string; detail?: string; msg?: string }>,
+    );
+  }
+};
+
+
+export const updateAdminStatusAPI = async (data: { id: number, status: string }) => {
+  try {
+    const response = await apiInstance.patch(
+      `api/v1/admins/${data.id}/status/`,
+      withReferenceKey({ status: data.status }),
+    );
+
+    if (response.data.success) {
+      return response.data;
+    } else {
+      toast.error(response?.data?.msg || response?.data?.message || "Failed to update admin status!");
+    }
   } catch (error) {
     toast.error(
       extractError(

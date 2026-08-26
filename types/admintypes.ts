@@ -39,6 +39,7 @@ export interface AdminDataTypes {
   documents: Document[];
   status: "ACTIVE" | "INACTIVE";
   must_change_password: boolean;
+  is_active: boolean;
   db_name: string;
   schema_name: string;
   created_at: string;

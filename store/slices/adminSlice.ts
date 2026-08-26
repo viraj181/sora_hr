@@ -2,7 +2,8 @@ import {
   createAdminAPI,
   fetchAdminAPI,
   fetchAdminAPIById,
-  updateAdminAPIById
+  updateAdminAPIById,
+  updateAdminStatusAPI
 } from "@/services/admin.services";
 import { AdminFormValues, AdminSliceTypes, FetchAdminPayload } from "@/types/admintypes";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
@@ -92,6 +93,17 @@ export const updateAdmin = createAsyncThunk(
     } else {
       return rejectWithValue(response?.msg || "Failed to update Admin!");
     }
+  },
+);
+
+
+// admin block unblock
+export const updateAdminStatus = createAsyncThunk(
+  "admin/updateAdminStatus",
+  async (data: { id: number, status: string }) => {
+    const response = await updateAdminStatusAPI(data);
+
+    return response;
   },
 );
 

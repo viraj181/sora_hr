@@ -8,7 +8,6 @@ import { useState } from "react";
 
 const Header = () => {
   const { userData } = useAppSelector((state) => state.auth);
-  console.log("userData::: ", userData);
   const [mobileSideBar, setMobileSideBar] = useState(false);
   return (
     <>

@@ -6,9 +6,12 @@ import { useEffect } from "react";
 import { IoEyeSharp } from "react-icons/io5";
 import ActionDropDown from "@/components/dropDowns/ActionDropDown";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { fetchAdmin, setAdminFilters } from "@/store/slices/adminSlice";
+import { fetchAdmin, setAdminData, setAdminFilters, updateAdminStatus } from "@/store/slices/adminSlice";
 import FullTableLayout from "../_SAComponents/layout/table/FullTableLayout";
 import TableRows from "../_SAComponents/layout/table/TableRows";
+import toast from "react-hot-toast";
+import ToggleButton from "@/components/Buttons/ToggleButton";
+import { AdminDataTypes } from "@/types/admintypes";
 
 const UserHeader = [
   { label: "sr.no", width: "w-[50px]" },
@@ -20,7 +23,8 @@ const UserHeader = [
   { label: "gst number" },
   { label: "gst type" },
   { label: "status" },
-  // { label: "action", width: "w-[50px]" },
+  { label: "on/off" },
+  { label: "action", width: "w-[50px]" },
 ];
 
 const UserTable = () => {
@@ -36,6 +40,25 @@ const UserTable = () => {
     adminLoading,
     adminTableDataReload,
   } = useAppSelector((state) => state.admin);
+
+  // toggle button api integration
+  const handleServiceStatusChange = async (item: AdminDataTypes) => {
+    const response = await dispatch(
+      updateAdminStatus({
+        id: item?.id,
+        status: item?.status,
+      }),
+    ).unwrap();
+    console.log("response::", response);
+
+    if (response?.success) {
+      toast.success(response?.msg || "Service status updated successfully!");
+      const updatedResults = adminData?.map((adminItem) =>
+        adminItem.id === item.id ? { ...adminItem, is_active: !adminItem.is_active } : adminItem,
+      );
+      dispatch(setAdminData({ adminData: updatedResults }));
+    }
+  };
 
   useEffect(() => {
     const fetchData = () => {
@@ -104,24 +127,30 @@ const UserTable = () => {
                   status={item?.status}
                   statusClassName="w-full"
                 />
-              </>
-              ,
-              // <>
-              //   <div className="flex items-center justify-center gap-2">
-              //     <IoEyeSharp
-              //       className="text-font18 cursor-pointer text-avocado"
-              //       onClick={(e) => {
-              //         e.stopPropagation();
-              //         // router.push(`/admin/adminOverView/${item.id}`);
-              //       }}
-              //     />
+              </>,
+              <>
+                <div className="flex items-center justify-center">
+                  <ToggleButton
+                    isActive={!item?.is_active}
+                    toggleClick={() => {
+                      handleServiceStatusChange(item);
+                    }}
+                  />
+                </div>
+              </>,
+              <>
+                <div className="flex items-center justify-center gap-2">
+                  <IoEyeSharp
+                    className="text-font18 cursor-pointer text-avocado"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      router.push(`/sa_admin/adminOverView/${item.id}`);
+                    }}
+                  />
 
-              //     <ActionDropDown
-              //       dataSize={adminDataLength}
-              //       index={index}
-              //     />
-              //   </div>
-              // </>,
+
+                </div>
+              </>,
             ].map((cell, cellIndex) => {
               return (
                 <TableRows
