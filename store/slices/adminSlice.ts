@@ -119,7 +119,6 @@ export const fetchAdminRoles = createAsyncThunk(
   "admin/fetchAdminRoles",
   async (data: { adminId: number }, { rejectWithValue }) => {
     const response = await fetchAdminRolesAPI(data);
-    console.log(response);
 
     if (response?.success) {
       return { adminPermissionModalData: response?.data };
